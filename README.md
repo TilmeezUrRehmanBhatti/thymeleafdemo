@@ -230,3 +230,86 @@ File:helloworld.html
         href="https://stackpath.bootstrpcdn.com/....." />
 </head>
 ```
+
+
+### Spring Boot - Thymeleaf - Building HTML Tables
+
+**Spring Boot - Thymeleaf - Build HTML Tables - Overview**
+
+**Development Process**
+
+1. Create Employee class
+2. Create Employee Controller
+3. Create Thymeleaf template
+
+
+_Step 1:Create Employee class_
+
++ Regular Java class: fields, constructor, getter/setters
+
+_Step 2:Create Employee Controller_
+
+```JAVA
+@Controller
+@RequestMapping("/employees")
+public class EmployeeController {
+  
+  @GetMapping("/list")
+  public String listEmployees(Model theModel) {
+    
+    // create employees
+    Employee emp1 = new Employee(1, "Leslie", "Andrews", "leslie@gmial.com");
+    Employee emp2 = new Employee(2, "Emma", "Baumgraten", "emma@gmial.com");
+    Employee emp3 = new Employee(3, "Avani", "Gupta", "avani@gmial.com");
+    
+    // creat the list 
+    List<Employee> theEmployees = new ArrayList<>();
+    
+    // add to the list
+    theEmloyees.add(emp1);
+    theEmloyees.add(emp2);
+    theEmloyees.add(emp3);
+    
+    // add to the Spring MVC model
+    theModel.addAtribute("employees", theEmployees);
+    
+    return "list-employees";
+  }
+}
+```
+
+_Step 3: Create Thymeleaf template_
+
+File:list-employees.html
+```HTML
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Directory</title>
+</head>
+<body>
+
+    <h3>Employee Directory</h3>
+    <hr>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="tempEmployee: ${employees}">
+        <td th:text="${tempEmployee.firstName}" />
+        <td th:text="${tempEmployee.lastName}" />
+        <td th:text="${tempEmployee.email}" />
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
+```
